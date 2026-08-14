@@ -1,0 +1,31 @@
+spring:
+
+  application:
+    name: nearlog-api
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/nearlog}
+    username: ${DB_USERNAME:nearlog}
+    password: ${DB_PASSWORD:nearlog}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+    open-in-view: false
+
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

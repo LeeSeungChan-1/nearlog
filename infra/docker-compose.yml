@@ -1,0 +1,25 @@
+services:
+
+  postgres:
+    image: postgis/postgis:18-3.6
+    container_name: nearlog-postgres
+
+    environment:
+      POSTGRES_DB: nearlog
+      POSTGRES_USER: nearlog
+      POSTGRES_PASSWORD: nearlog
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - nearlog-postgres-data:/var/lib/postgresql
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nearlog -d nearlog"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  nearlog-postgres-data:

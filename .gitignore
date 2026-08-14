@@ -1,0 +1,27 @@
+# IntelliJ / WebStorm
+.idea/
+*.iml
+
+# Java
+**/build/
+**/.gradle/
+*.class
+
+# Node
+**/node_modules/
+**/dist/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Secrets
+application-local.yml
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
