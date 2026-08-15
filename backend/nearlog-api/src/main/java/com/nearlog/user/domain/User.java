@@ -32,8 +32,8 @@ public class User {
     @Column(length = 150)
     private String bio;
 
-    @Column(name = "profile_image_url")
-    private String profileImageUrl;
+    @Column(name = "profile_image_key")
+    private String profileImageKey;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -90,5 +90,9 @@ public class User {
     @PreUpdate
     private void preUpdate() {
         this.updatedAt = Instant.now();
+    }
+
+    public void updateProfileImage(String profileImageKey) {
+        this.profileImageKey = profileImageKey;
     }
 }
