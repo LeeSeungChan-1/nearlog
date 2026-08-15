@@ -2,6 +2,8 @@ package com.nearlog.auth.application;
 
 import com.nearlog.auth.domain.RefreshToken;
 import com.nearlog.auth.domain.RefreshTokenRepository;
+import com.nearlog.common.exception.BusinessException;
+import com.nearlog.common.exception.ErrorCode;
 import com.nearlog.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -54,8 +56,8 @@ public class RefreshTokenService {
                 refreshTokenRepository
                         .findByTokenHash(tokenHash)
                         .orElseThrow(() ->
-                                new IllegalArgumentException(
-                                        "유효하지 않은 Refresh Token입니다."
+                                new BusinessException(
+                                        ErrorCode.INVALID_REFRESH_TOKEN
                                 )
                         );
 
@@ -64,8 +66,8 @@ public class RefreshTokenService {
                         || refreshToken.isRevoked()
         ) {
 
-            throw new IllegalArgumentException(
-                    "만료되었거나 폐기된 Refresh Token입니다."
+            throw new BusinessException(
+                    ErrorCode.EXPIRED_OR_REVOKED_REFRESH_TOKEN
             );
         }
 
