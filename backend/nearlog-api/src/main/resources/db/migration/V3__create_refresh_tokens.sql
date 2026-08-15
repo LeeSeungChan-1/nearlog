@@ -4,7 +4,7 @@ CREATE TABLE refresh_tokens
 
     user_id     BIGINT      NOT NULL,
 
-    token_hash  VARCHAR(64)    NOT NULL,
+    token_hash  CHAR(64)    NOT NULL,
 
     expires_at  TIMESTAMPTZ NOT NULL,
     revoked_at  TIMESTAMPTZ,

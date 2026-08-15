@@ -3,6 +3,8 @@ package com.nearlog.auth.application;
 import com.nearlog.auth.dto.AuthResponse;
 import com.nearlog.auth.dto.LoginRequest;
 import com.nearlog.auth.dto.SignupRequest;
+import com.nearlog.common.exception.BusinessException;
+import com.nearlog.common.exception.ErrorCode;
 import com.nearlog.common.security.JwtProperties;
 import com.nearlog.common.security.JwtTokenProvider;
 import com.nearlog.common.security.UserPrincipal;
@@ -43,14 +45,14 @@ public class AuthService {
                 .toLowerCase(Locale.ROOT);
 
         if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException(
-                    "이미 사용 중인 이메일입니다."
+            throw new BusinessException(
+                    ErrorCode.DUPLICATE_EMAIL
             );
         }
 
         if (userRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException(
-                    "이미 사용 중인 username입니다."
+            throw new BusinessException(
+                    ErrorCode.DUPLICATE_USERNAME
             );
         }
 
@@ -99,7 +101,11 @@ public class AuthService {
         User user =
                 userRepository.findById(
                         principal.getId()
-                ).orElseThrow();
+                ).orElseThrow(() ->
+                        new BusinessException(
+                                ErrorCode.USER_NOT_FOUND
+                        )
+                );
 
         String accessToken =
                 jwtTokenProvider
@@ -152,15 +158,19 @@ public class AuthService {
 
         if (!tokenUserId.equals(storedUserId)) {
 
-            throw new IllegalArgumentException(
-                    "Refresh Token 사용자 정보가 일치하지 않습니다."
+            throw new BusinessException(
+                    ErrorCode.INVALID_REFRESH_TOKEN
             );
         }
 
         User user =
                 userRepository.findById(
                         tokenUserId
-                ).orElseThrow();
+                ).orElseThrow(() ->
+                        new BusinessException(
+                                ErrorCode.USER_NOT_FOUND
+                        )
+                );
 
         UserPrincipal principal =
                 UserPrincipal.from(user);
