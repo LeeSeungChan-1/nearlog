@@ -1,5 +1,6 @@
 package com.nearlog.common.security;
 
+import com.nearlog.storage.config.S3Properties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.*;
@@ -20,7 +21,7 @@ import java.util.List;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 @EnableConfigurationProperties(
-        JwtProperties.class
+        {JwtProperties.class, S3Properties.class}
 )
 public class SecurityConfig {
 

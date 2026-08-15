@@ -8,7 +8,7 @@ public record UserResponse(
         String email,
         String username,
         String nickname,
-        String profileImageUrl
+        String profileImageKey
 ) {
 
     public static UserResponse from(User user) {
@@ -18,7 +18,7 @@ public record UserResponse(
                 user.getEmail(),
                 user.getUsername(),
                 user.getNickname(),
-                user.getProfileImageUrl()
+                user.getProfileImageKey()
         );
     }
 }
